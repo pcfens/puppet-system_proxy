@@ -1,0 +1,10 @@
+name: 'pcfens/system_proxy'
+version: '0.2.0'
+author: 'pcfens'
+summary: 'Manage the proxy settings on a Linux system, if needed.'
+license: 'Apache 2.0'
+source: 'https://github.com/pcfens/puppet-system_proxy'
+project_page: 'https://github.com/pcfens/puppet-system_proxy'
+
+dependency 'puppetlabs/stdlib'
+dependency 'puppetlabs/inifile'
