@@ -23,13 +23,14 @@ class { 'system_proxy':
 With every parameter set, usage looks like
 ```puppet
 class { 'system_proxy':
-  proxy_host       => 'http://proxy.example.com',
-  proxy_port       => 80,
-  proxy_type       => 'http',
-  username         => 'ImAUser',
-  password         => 'ASuperSecretPassword',
-  unless_network   => ['10.0.1.0'],
-  environment_vars => ['PIP_PROXY'],
+  proxy_host         => 'http://proxy.example.com',
+  proxy_port         => 80,
+  proxy_type         => 'http',
+  username           => 'ImAUser',
+  password           => 'ASuperSecretPassword',
+  unless_network     => ['10.0.1.0'],
+  unless_ip_in_range => ['192.168.0.1/24'],
+  environment_vars   => ['PIP_PROXY'],
 }
 ```
 

@@ -23,6 +23,9 @@
 #   all proxy setup will be skipped. Useful when you apply this module to
 #   everything in your infrastructure, but want to skip on machines that don't
 #   or shouldn't be talking to the proxy server.
+# [*unless_ip_in_range*]
+#   If any IP address on the system falls in any CIDR range in this list, then
+#   proxy setup will be skipped.
 # [*environment_vars*]
 #   An array of additional environment variables that should contain the proxy
 #   connection information. Defaults to ['PIP_PROXY'].
@@ -40,13 +43,14 @@
 # Phil Fenstermacher <phillip.fenstermacher@gmail.com>
 #
 class system_proxy (
-  $proxy_host       = undef,
-  $proxy_port       = undef,
-  $username         = undef,
-  $password         = undef,
-  $proxy_type       = $system_proxy::params::proxy_type,
-  $unless_network   = $system_proxy::params::unless_network,
-  $environment_vars = $system_proxy::params::environment_vars,
+  $proxy_host         = undef,
+  $proxy_port         = undef,
+  $username           = undef,
+  $password           = undef,
+  $proxy_type         = $system_proxy::params::proxy_type,
+  $unless_network     = $system_proxy::params::unless_network,
+  $unless_ip_in_range = $system_proxy::params::unless_ip_in_range,
+  $environment_vars   = $system_proxy::params::environment_vars,
 ) inherits ::system_proxy::params {
   if $proxy_port == undef {
     $proxy_port_real = $proxy_type ? {
@@ -70,7 +74,7 @@ class system_proxy (
 
   # We can skip the custom function when the future parser is
   # standard.
-  if !has_ip_network_list($unless_network) {
+  if !has_ip_network_list($unless_network) and !has_ip_in_cidr_list($unless_ip_in_range){
 
     $environment_vars_real = union( [
                                       downcase("${proxy_type}_proxy"),
@@ -78,7 +82,8 @@ class system_proxy (
                                       $environment_vars
                                     )
     ::system_proxy::env_var { $environment_vars_real:
-      value => "${proxy_type}://${proxy_host}:${proxy_port_real}",
+      ensure => 'present',
+      value  => "${proxy_type}://${proxy_host}:${proxy_port_real}",
     }
 
     if $::operatingsystem == 'RedHat' {
@@ -91,6 +96,12 @@ class system_proxy (
 
   } else {
     notice ( 'Skipping proxy setup - found a non-proxy network on the system' )
+
+    ::system_proxy::env_var { $environment_vars_real:
+      ensure => 'absent',
+      value  => "${proxy_type}://${proxy_host}:${proxy_port_real}",
+    }
+
   }
 
 }
