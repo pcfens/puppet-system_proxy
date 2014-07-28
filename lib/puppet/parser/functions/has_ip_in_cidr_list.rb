@@ -20,7 +20,7 @@ Returns true if the client has an IP address within any of the given ranges.
       network = IPAddr.new(cidr)
       interfaces.each do |iface|
         address = lookupvar("ipaddress_#{iface}")
-        if address not nil
+        unless address.nil?
           ip = IPAddr.new(address)
           if network.include?(ip)
             return true
