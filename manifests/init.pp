@@ -92,6 +92,13 @@ class system_proxy (
         password  => $password,
         proxy_uri => "${proxy_type}://${proxy_host}:${proxy_port_real}",
       }
+    } elsif $::osfamily == 'Debian' {
+      file { '/etc/apt/apt.conf':
+        ensure => present,
+        owner  => 'root',
+        group  => 'root',
+        content => template('system_proxy/apt.conf.erb'),
+      }
     }
 
   } else {
