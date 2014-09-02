@@ -28,7 +28,8 @@
 #   proxy setup will be skipped.
 # [*environment_vars*]
 #   An array of additional environment variables that should contain the proxy
-#   connection information. Defaults to ['PIP_PROXY'].
+#   connection information. Defaults to
+#   ['PIP_PROXY', 'https_proxy', 'HTTPS_PROXY'].
 #
 # === Examples
 #

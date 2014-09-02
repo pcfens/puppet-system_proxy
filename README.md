@@ -30,7 +30,7 @@ class { 'system_proxy':
   password           => 'ASuperSecretPassword',
   unless_network     => ['10.0.1.0'],
   unless_ip_in_range => ['192.168.0.1/24'],
-  environment_vars   => ['PIP_PROXY'],
+  environment_vars   => ['PIP_PROXY', 'HTTPS_PROXY', 'https_proxy'],
 }
 ```
 

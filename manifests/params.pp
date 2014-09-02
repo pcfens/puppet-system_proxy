@@ -6,5 +6,7 @@ class system_proxy::params {
   $unless_ip_in_range = []
 
   $environment_vars   = [ 'PIP_PROXY',
+                          'https_proxy',
+                          'HTTPS_PROXY',
                         ]
 }
