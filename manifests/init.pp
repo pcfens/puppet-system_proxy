@@ -73,15 +73,17 @@ class system_proxy (
 
   $proxy_uri = "${proxy_type}://${user_pass}${proxy_host}:${proxy_port_real}"
 
+  $environment_vars_real = union( [
+                                    downcase("${proxy_type}_proxy"),
+                                    upcase("${proxy_type}_proxy") ],
+                                    $environment_vars
+                                  )
+
+
   # We can skip the custom function when the future parser is
   # standard.
   if !has_ip_network_list($unless_network) and !has_ip_in_cidr_list($unless_ip_in_range){
 
-    $environment_vars_real = union( [
-                                      downcase("${proxy_type}_proxy"),
-                                      upcase("${proxy_type}_proxy") ],
-                                      $environment_vars
-                                    )
     ::system_proxy::env_var { $environment_vars_real:
       ensure => 'present',
       value  => "${proxy_type}://${proxy_host}:${proxy_port_real}",

@@ -33,9 +33,9 @@ describe 'system_proxy', :type=> :class do
 
       it { should compile }
       it { should contain_class('system_proxy::params') }
-      it { should_not contain_system_proxy__env_var('HTTP_PROXY')}
-      it { should_not contain_system_proxy__env_var('http_proxy')}
-      it { should_not contain_system_proxy__env_var('PIP_PROXY')}
+      it { should contain_system_proxy__env_var('HTTP_PROXY').with_ensure('absent')}
+      it { should contain_system_proxy__env_var('http_proxy').with_ensure('absent')}
+      it { should contain_system_proxy__env_var('PIP_PROXY').with_ensure('absent')}
       it { should_not contain_file('/etc/apt/apt.conf')}
     end
   end
@@ -66,9 +66,9 @@ describe 'system_proxy', :type=> :class do
 
       it { should compile }
       it { should contain_class('system_proxy::params') }
-      it { should_not contain_system_proxy__env_var('HTTP_PROXY')}
-      it { should_not contain_system_proxy__env_var('http_proxy')}
-      it { should_not contain_system_proxy__env_var('PIP_PROXY')}
+      it { should contain_system_proxy__env_var('HTTP_PROXY').with_ensure('absent')}
+      it { should contain_system_proxy__env_var('http_proxy').with_ensure('absent')}
+      it { should contain_system_proxy__env_var('PIP_PROXY').with_ensure('absent')}
       it { should_not contain_class('system_proxy::redhat')}
       it { should_not contain_file('/etc/apt/apt.conf')}
     end
