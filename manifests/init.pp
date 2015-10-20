@@ -52,7 +52,7 @@ class system_proxy (
   $unless_network     = $system_proxy::params::unless_network,
   $unless_ip_in_range = $system_proxy::params::unless_ip_in_range,
   $environment_vars   = $system_proxy::params::environment_vars,
-) inherits ::system_proxy::params {
+) inherits system_proxy::params {
   if $proxy_port == undef {
     $proxy_port_real = $proxy_type ? {
       'http'  => 80 ,
@@ -95,9 +95,9 @@ class system_proxy (
       }
     } elsif $::osfamily == 'Debian' {
       file { '/etc/apt/apt.conf':
-        ensure => present,
-        owner  => 'root',
-        group  => 'root',
+        ensure  => present,
+        owner   => 'root',
+        group   => 'root',
         content => template('system_proxy/apt.conf.erb'),
       }
     }
